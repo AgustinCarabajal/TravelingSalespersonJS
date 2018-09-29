@@ -1,59 +1,60 @@
+/**
+ * LEXICOGRAPHIC ORDERING
+ * 
+ * DOC: https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
+ */
+
 'use strict'
 
-const totalCities = 5
-
-var cities = []
-var record
-var best = []
+var vals = [0, 1, 2]
 
 function setup() {
   createCanvas(400, 300)
-
-  for(let i = 0; i < totalCities; i++) {
-    let v = createVector(random(width), random(height))
-    cities[i] = v
-  }
-
-  let d = distance(cities)
-  record = d
-  best = cities.slice()
 }
 
 function draw() {
     background(0)
 
+    console.log(vals)
+
+    var x = -1
+    var y = -1
+
+    // STEP 1: P[x] < P[ x + 1]
+    for(let i = 0; i < vals.length; i++) {
+      if (vals[i] < vals[i + 1]) {
+        x = i
+      }
+    }
+
+    if (x == -1) {
+      noLoop()
+      console.log('Finished')
+    }
+
+    // STEP 2: P[x] < P[y]
+    for(let j = 0; j < vals.length; j++) {
+      if (vals[x] < vals[j]) {
+        y = j
+      }
+    }
+
+    // STEP 3: Swap
+    swap(vals, x, y)
+
+    // STEP 4: Reverse P[x + 1 ... n]
+    let end = vals.splice(x + 1)
+    end.reverse()
+    vals = vals.concat(end)
+
+    // Drawing
+    textSize(64)
+    var s = ''
+    for (let i = 0; i < vals.length; i++) {
+      s += vals[i]
+    }
     fill(255)
-    for(let i = 0; i < cities.length; i++) {
-      ellipse(cities[i].x, cities[i].y, 8, 8)
-    }
-
-    stroke(50)
-    strokeWeight(1)
-    noFill()
-    beginShape()
-    for(let i = 0; i < cities.length; i++) {
-      vertex(cities[i].x, cities[i].y)
-    }
-    endShape()
-
-    stroke(25, 185, 200)
-    strokeWeight(4)
-    noFill()
-    beginShape()
-    for(let i = 0; i < best.length; i++) {
-      vertex(best[i].x, best[i].y)
-    }
-    endShape()
-
-    let i = floor(random(cities.length))
-    let j = floor(random(cities.length))
-    swap(cities, i, j)
-
-    let d = distance(cities)
-    if(d < record) {
-      record = d
-      best = cities.slice()
-    }
+    text(s, 20, height / 2)
 
 }
 
