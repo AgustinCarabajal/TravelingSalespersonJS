@@ -29,7 +29,12 @@ function nextGeneration() {
 
   for (let i = 0; i < population.length; i++) {
     // newPopulation[i] = population[i].slice()
-    let order = pickOne(population, fitness)
+
+    // let order = pickOne(population, fitness)
+
+    // Adding crossover
+    let order = crossOver(pickOne(population, fitness), pickOne(population, fitness))
+
     mutate(order, mutationRate)
     newPopulation[i] = order
   }
@@ -46,6 +51,21 @@ function pickOne(arr, prob) {
   }
 
   return arr[--index].slice()
+}
+
+function crossOver(orderA, orderB) {
+  let start = floor(random(orderA.length))
+  let end = floor(random(start + 1, orderB.length))
+  let newOrder = orderA.slice(start, end)
+
+  for(let i = 0; i < orderB.length; i++) {
+    let city = orderB[i]
+    if (!newOrder.includes(city)) {
+      newOrder.push(city)
+    }
+  }
+
+  return newOrder
 }
 
 function mutate(order, mutationRate) {
