@@ -30,7 +30,7 @@ function nextGeneration() {
   for (let i = 0; i < population.length; i++) {
     // newPopulation[i] = population[i].slice()
     let order = pickOne(population, fitness)
-    mutate(order)
+    mutate(order, mutationRate)
     newPopulation[i] = order
   }
 
@@ -48,10 +48,14 @@ function pickOne(arr, prob) {
   return arr[--index].slice()
 }
 
-function mutate(order) {
-  let indexA = floor(random(order.length))
-  let indexB = floor(random(order.length))
-  swap(order, indexA, indexB)
+function mutate(order, mutationRate) {
+  for(let i = 0; i < totalCities; i ++) {
+    if (random(1) < mutationRate) {
+      let indexA = floor(random(order.length))
+      let indexB = floor(random(order.length))
+      swap(order, indexA, indexB)
+    }
+  }
 }
 
 function swap (arr, i, j) {

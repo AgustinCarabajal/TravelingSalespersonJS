@@ -2,8 +2,10 @@
 
 let cities = []
 
-const totalCities = 5
-const maxPopulation = 10
+const totalCities = 10
+const maxPopulation = 100
+const mutationRate = 1
+
 let population = []
 
 let fitness = []
@@ -14,7 +16,7 @@ let bestEver
 let order = []
 
 function setup() {
-  createCanvas(400, 400)
+  createCanvas(400, 800)
 
   for (let i = 0; i < totalCities; i++) {
     let v = createVector(random(width), random(height / 1.5))
