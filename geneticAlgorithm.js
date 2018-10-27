@@ -72,7 +72,8 @@ function mutate(order, mutationRate) {
   for(let i = 0; i < totalCities; i ++) {
     if (random(1) < mutationRate) {
       let indexA = floor(random(order.length))
-      let indexB = floor(random(order.length))
+      // let indexB = floor(random(order.length))
+      let indexB = (indexA + 1) % totalCities
       swap(order, indexA, indexB)
     }
   }
